@@ -16,12 +16,12 @@
 
 using namespace std;
 
-#define Iterative_BFS
+//define Iterative_BFS
 //define Iterative_DFS
 //define Recursive_DFS
-//define P_Recursive_DFS
+#define P_Recursive_DFS
 //define P_Iterative_DFS
-//define CQ_Recursive_DFS
+#define CQ_Recursive_DFS
 //define CS_Iterative_DFS
 
 
@@ -180,7 +180,7 @@ void PS(Tour t) {
 			for (unsigned int i = num_cities - 1; i > 0; --i) {
 				//If city isn't already on tour and doesn't exceed best mileage,
 				//add it to queue for exploration later.
-				if (curTour.add_city(i, BFSbest)) {
+				if (curTour.add_city(i, PSbest)) {
 					frontier.push(curTour);
 					curTour.remove_last();
 				}
