@@ -16,13 +16,13 @@
 
 using namespace std;
 
-//define Iterative_BFS
+#define Iterative_BFS
 //define Iterative_DFS
 //define Recursive_DFS
 //define P_Recursive_DFS
 //define P_Iterative_DFS
 //define CQ_Recursive_DFS
-#define CS_Iterative_DFS
+//define CS_Iterative_DFS
 
 
 int NUM_THREADS = 4;
@@ -214,18 +214,18 @@ void PS(Tour t) {
 * starting with the incomplete tour t
 */
 void BFS(Tour t) {
-	queue<Tour*> frontier; //Queue for BFS
-	Tour *curTour;
-	frontier.push(&t); //start with just the hometown
+	queue<unique_ptr<Tour>> frontier; //Queue for BFS
+	Tour curTour;
+	frontier.push(make_unique<Tour>(t)); //start with just the hometown
 
 	while (!frontier.empty()) {
-		curTour = frontier.front();
+		curTour = *frontier.front();
 		frontier.pop();
 		
 		//If tour is complete, check if it's the best
-		if (curTour->get_num_cities() == num_cities) {
-			if (curTour->better_than(BFSbest)) {
-				BFSbest = *curTour;
+		if (curTour.get_num_cities() == num_cities) {
+			if (curTour.better_than(BFSbest)) {
+				BFSbest = curTour;
 			}
 		}
 		//If tour is incomplete, check which cities can be added
@@ -233,14 +233,13 @@ void BFS(Tour t) {
 			for (unsigned int i = num_cities - 1; i > 0; --i) {
 				//If city isn't already on tour and doesn't exceed best mileage,
 				//add it to queue for exploration later.
-				if (curTour->add_city(i, BFSbest)) {
-					Tour copyForQueue(*curTour);
-					frontier.push(&copyForQueue);
-					curTour->remove_last();
+				if (curTour.add_city(i, BFSbest)) {
+					Tour copyForQueue(curTour);
+					frontier.push(make_unique<Tour>(copyForQueue));
+					curTour.remove_last();
 				}
 			}
 		}
-		//delete curTour;
 	}
 
 }

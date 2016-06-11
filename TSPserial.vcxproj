@@ -146,11 +146,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="source\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="cities.h" />
-    <ClInclude Include="Tour.h" />
+    <ClInclude Include="source\cities.h" />
+    <ClInclude Include="source\Tour.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">
