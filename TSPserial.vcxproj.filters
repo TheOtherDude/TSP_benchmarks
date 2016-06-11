@@ -33,4 +33,9 @@
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="Improvements.md">
+      <Filter>Resource Files</Filter>
+    </Text>
+  </ItemGroup>
 </Project>

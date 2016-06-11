@@ -2,42 +2,38 @@
 class Tour {
 public:
 	// Used to initialize new tours. 
-	Tour() { cities.push_back(0); mileage = 0; }
+	Tour() : mileage(0) { 
+		cities.push_back(0); 
+	}
 
 	// Used to initialize best tour. Set to a high
 	// cost so that the first complete tour will become
 	// the new "best."
-	Tour(unsigned int cost) { mileage = cost; }
-
-	// Copy constructor
-	Tour(const Tour& t) {
-		cities = t.cities;
-		mileage = t.mileage;
-	}
+	Tour(unsigned int cost) : mileage(cost) { }
 
 	//Reset tour
-	void clear() {
+	auto clear() {
 		cities.clear();
 		cities.push_back(0);
 		mileage = 0;
 	}
 
-	// ----- Accessors -----
-
-	size_t get_num_cities() { return cities.size(); }
+	auto get_num_cities() { 
+		return cities.size(); 
+	}
 
 	// Returns True if City c is in the tour
-	bool is_present(unsigned int c) {
+	auto is_present(unsigned int c) {
 		return (find(cities.begin(), cities.end(), c) != cities.end());
 	}
 
 	// Returns True if this tour is better than Tour t
-	bool better_than(const Tour& t) { return (mileage < t.mileage); }
-
-	// ----- Adding and removing cities -----
+	auto better_than(const Tour& t) { 
+		return (mileage < t.mileage); 
+	}
 
 	// Compute change in mileage if City c is added to the list
-	unsigned int mileage_delta(unsigned int c) {
+	auto mileage_delta(unsigned int c) {
 		unsigned int last = cities.back(); // current last city
 		unsigned int test_mileage = mileage_table[last][c];
 
@@ -51,7 +47,7 @@ public:
 
 
 	// Add city unconditionally (without checking anything) 
-	void add_city(unsigned int c) {
+	auto add_city(unsigned int c) {
 		mileage += mileage_delta(c);
 		cities.push_back(c);
 	}
@@ -61,7 +57,7 @@ public:
 	// and (b) it would not lead to a tour that is worse
 	// than the best tour so far
 	// Return True if city was added
-	bool add_city(unsigned int c, const Tour& best_so_far) {
+	auto add_city(unsigned int c, const Tour& best_so_far) {
 		// If city is already in the list, return false
 		if (is_present(c)) {
 			return false;
@@ -76,7 +72,7 @@ public:
 	}
 
 	// Delete the last city
-	void remove_last() {
+	auto remove_last() {
 		unsigned int c = cities.back();
 		cities.pop_back();
 
@@ -85,7 +81,7 @@ public:
 	}
 
 	// Output operator: print cost and list of names
-	friend ostream& operator << (ostream &outs, Tour t) {
+	friend auto& operator << (ostream &outs, Tour t) {
 		cout << "\nCost = " << t.mileage << endl;
 		for (vector<unsigned int>::iterator it = t.cities.begin();
 			it != t.cities.end(); it++) {

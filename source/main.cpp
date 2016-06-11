@@ -1,3 +1,4 @@
+#define _ENABLE_ATOMIC_ALIGNMENT_FIX
 #include <iostream>
 #include <vector>
 #include <climits>
@@ -17,18 +18,17 @@
 using namespace std;
 
 //define Iterative_BFS
-//define Iterative_DFS
-//define Recursive_DFS
+#define Iterative_DFS
+#define Recursive_DFS
 #define P_Recursive_DFS
-//define P_Iterative_DFS
+#define P_Iterative_DFS
 #define CQ_Recursive_DFS
-//define CS_Iterative_DFS
+#define CS_Iterative_DFS
 
 
 int NUM_THREADS = 4;
 atomic<int> active_threads (0); // 0 to n-1 for array Indexing
-//atomic<Tour> csDFSbest(UINT_MAX);
-Tour BFSbest(UINT_MAX), DFSbest(UINT_MAX), PSbest(UINT_MAX), iDFSbest(UINT_MAX), prDFSbest(UINT_MAX), cqDFSbest(UINT_MAX), csDFSbest(UINT_MAX); // globals for best tour so far - initialized high
+Tour BFSbest(UINT_MAX), DFSbest(UINT_MAX), PSbest(UINT_MAX), iDFSbest(UINT_MAX), prDFSbest(UINT_MAX), csDFSbest(UINT_MAX), cqDFSbest(UINT_MAX); // globals for best tour so far - initialized high
 mutex g_lock;
 condition_variable cv;
 
@@ -60,70 +60,70 @@ int main(int argc, char* argv[]) {
 	}
 	
 #ifdef Iterative_BFS
-	chrono::high_resolution_clock::time_point BFSStart = std::chrono::high_resolution_clock::now();
+	auto BFSStart = std::chrono::high_resolution_clock::now();
 	BFS(t);
-	chrono::high_resolution_clock::time_point BFSEnd = std::chrono::high_resolution_clock::now();
-	chrono::duration<double> BFSTime = chrono::duration_cast<std::chrono::duration<double>>(BFSEnd - BFSStart);
+	auto BFSEnd = std::chrono::high_resolution_clock::now();
+	auto BFSTime = chrono::duration_cast<std::chrono::duration<double>>(BFSEnd - BFSStart);
 	
 	cout << BFSbest;
 	t.clear();
 #endif
 	
 #ifdef Recursive_DFS
-	chrono::high_resolution_clock::time_point DFSStart = std::chrono::high_resolution_clock::now();
+	auto DFSStart = std::chrono::high_resolution_clock::now();
 	DFS(t);
-	chrono::high_resolution_clock::time_point DFSEnd = std::chrono::high_resolution_clock::now();
-	chrono::duration<double> DFSTime = chrono::duration_cast<std::chrono::duration<double>>(DFSEnd - DFSStart);
+	auto DFSEnd = std::chrono::high_resolution_clock::now();
+	auto DFSTime = chrono::duration_cast<std::chrono::duration<double>>(DFSEnd - DFSStart);
 	
 	cout << DFSbest;
 	t.clear();
 #endif
 	
 #ifdef Iterative_DFS
-	chrono::high_resolution_clock::time_point siDFSStart = std::chrono::high_resolution_clock::now();
+	auto siDFSStart = std::chrono::high_resolution_clock::now();
 	siDFS(t);
-	chrono::high_resolution_clock::time_point siDFSEnd = std::chrono::high_resolution_clock::now();
-	chrono::duration<double> siDFSTime = chrono::duration_cast<std::chrono::duration<double>>(siDFSEnd - siDFSStart);
+	auto siDFSEnd = std::chrono::high_resolution_clock::now();
+	auto siDFSTime = chrono::duration_cast<std::chrono::duration<double>>(siDFSEnd - siDFSStart);
 
 	cout << iDFSbest;
 	t.clear();
 #endif
 
 #ifdef P_Iterative_DFS
-	chrono::high_resolution_clock::time_point PSStart = std::chrono::high_resolution_clock::now();
+	auto PSStart = std::chrono::high_resolution_clock::now();
 	PS(t);
-	chrono::high_resolution_clock::time_point PSEnd = std::chrono::high_resolution_clock::now();
-	chrono::duration<double> PSTime = chrono::duration_cast<std::chrono::duration<double>>(PSEnd - PSStart);
+	auto PSEnd = std::chrono::high_resolution_clock::now();
+	auto PSTime = chrono::duration_cast<std::chrono::duration<double>>(PSEnd - PSStart);
 
 	cout << PSbest;
 	t.clear();
 #endif
 
 #ifdef P_Recursive_DFS
-	chrono::high_resolution_clock::time_point prDFSStart = std::chrono::high_resolution_clock::now();
+	auto prDFSStart = std::chrono::high_resolution_clock::now();
 	prDFS(t);
-	chrono::high_resolution_clock::time_point prDFSEnd = std::chrono::high_resolution_clock::now();
-	chrono::duration<double> prDFSTime = chrono::duration_cast<std::chrono::duration<double>>(prDFSEnd - prDFSStart);
+	auto prDFSEnd = std::chrono::high_resolution_clock::now();
+	auto prDFSTime = chrono::duration_cast<std::chrono::duration<double>>(prDFSEnd - prDFSStart);
 
 	cout << prDFSbest;
 	t.clear();
 #endif
 
 #ifdef CQ_Recursive_DFS
-	chrono::high_resolution_clock::time_point cqDFSStart = std::chrono::high_resolution_clock::now();
+	auto cqDFSStart = std::chrono::high_resolution_clock::now();
 	cqDFS(t);
-	chrono::high_resolution_clock::time_point cqDFSEnd = std::chrono::high_resolution_clock::now();
-	chrono::duration<double> cqDFSTime = chrono::duration_cast<std::chrono::duration<double>>(cqDFSEnd - cqDFSStart);
+	auto cqDFSEnd = std::chrono::high_resolution_clock::now();
+	auto cqDFSTime = chrono::duration_cast<std::chrono::duration<double>>(cqDFSEnd - cqDFSStart);
 
 	cout << cqDFSbest;
 	t.clear();
 #endif
 
 #ifdef CS_Iterative_DFS
-	chrono::high_resolution_clock::time_point csDFSStart = std::chrono::high_resolution_clock::now();
+	auto csDFSStart = std::chrono::high_resolution_clock::now();
 	csDFS(t);
-	chrono::high_resolution_clock::time_point csDFSEnd = std::chrono::high_resolution_clock::now();
-	chrono::duration<double> csDFSTime = chrono::duration_cast<std::chrono::duration<double>>(csDFSEnd - csDFSStart);
+	auto csDFSEnd = std::chrono::high_resolution_clock::now();
+	auto csDFSTime = chrono::duration_cast<std::chrono::duration<double>>(csDFSEnd - csDFSStart);
 
 	cout << csDFSbest;
 	t.clear();
@@ -459,10 +459,10 @@ void cqDFS(Tour& t) {
 		}
 	}
 
-	for (unsigned int tid = 0; tid < NUM_THREADS; ++tid){
+	for (auto tid = 0; tid < NUM_THREADS; ++tid){
 		threadPool[tid] = thread(cqDFSwrapper, &frontier, tid);
 	}
-	for (unsigned int tid = 0; tid < NUM_THREADS; ++tid){
+	for (auto tid = 0; tid < NUM_THREADS; ++tid){
 		threadPool[tid].join();
 	}
 
@@ -507,10 +507,10 @@ void csDFS(Tour& t) {
 	frontier->unsynchronized_push(&t);			//start with just the hometown
 	vector<thread> threadPool(NUM_THREADS);
 
-	for (unsigned int i = 0; i < NUM_THREADS; ++i) {
+	for (auto i = 0; i < NUM_THREADS; ++i) {
 		threadPool[i] = thread(csDFShelper, frontier);
 	}
-	for (unsigned int i = 0; i < NUM_THREADS; ++i) {
+	for (auto i = 0; i < NUM_THREADS; ++i) {
 		threadPool[i].join();
 	}
 
