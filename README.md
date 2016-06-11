@@ -29,4 +29,14 @@ The idea is to allow all threads to pull off the same boost:lockfree:stack for t
 
 Lots of pass-by-value and raw pointers going on. Will update and see how performance is affected. 
 
+##### Four threads, 15 Cities, mostly old code, but VS2015
+* Recursive DFS: 3.40599s
+* Iterative DFS: 4.39026s
+* Parallel Iterative DFS: 1.15819s
+* Parallel Recursive DFS: 0.941744s
+* Concurrent Queue Recursive DFS: 1.04583s
+* Concurrent Stack Iterative DFS: 3.04988s
+
+Compiler optimizations appear to be thwarting my experiments.
+
 
